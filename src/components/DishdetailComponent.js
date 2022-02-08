@@ -21,20 +21,21 @@ import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from '../shared/baseUrl';
 
-const Comment = ({ comments, dish, addComment, dishId }) => {
-  if (comments != null && dish != null) {
+const Comment = ({ comments, dishId, postComment }) => {
+  if (comments != null && dishId != null) {
     return (
       <>
         <h4>Comments</h4>
         {comments.map((item) => {
-          console.log(item)
           return (
-            <ul className="list-unstyled" key={dish.id}>
+            <ul key={item.id} className="list-unstyled">
               <li>{item.comment}</li>
               <li>--{item.author}, {item.date}</li>
             </ul>
           );
         })}
+            <CommentForm dishId={dishId} postComment={postComment}/>
+
       </>
     );
   } else {
@@ -44,7 +45,7 @@ const Comment = ({ comments, dish, addComment, dishId }) => {
 
 const DishDetailItem = ({ dish }) => {
   return (
-    <Card>
+    <Card key={dish.id}>
       <CardImg top src={baseUrl + dish.image} alt={dish.name}  />
       <CardBody>
         <CardTitle>{dish.name}</CardTitle>
@@ -75,8 +76,9 @@ class CommentForm extends Component {
 
   handleSubmit(values) {
     alert(JSON.stringify(values));
-    console.log(values);
-    this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+    console.log("aquiii"+JSON.stringify(values));
+    this.toggleModal();
+    this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
   }
 
   render() {
@@ -110,15 +112,15 @@ class CommentForm extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="yourName" md={12}>
+                <Label htmlFor="author" md={12}>
                   Your Name
                 </Label>
                 <Col md={12}>
                   <Control.text
-                    model=".yourName"
-                    id="yourName"
+                    model=".author"
+                    id="author"
                     className="form-control"
-                    name="yourName"
+                    name="author"
                     pĺaceholder="Your Name"
                     validators={{
                       required,
@@ -128,7 +130,7 @@ class CommentForm extends Component {
                   />
                   <Errors
                     className="text-danger"
-                    model=".yourName"
+                    model=".author"
                     show="touched"
                     messages={{
                       required: "Required",
@@ -144,7 +146,7 @@ class CommentForm extends Component {
                 </Label>
                 <Col md={12}>
                   <Control.textarea
-                    model=".textarea"
+                    model=".comment"
                     id="comment"
                     name="comment"
                     rows="6"
@@ -211,12 +213,10 @@ const DishDetail = (props) => {
           </div>
           <div className="col-12 col-md-5 m-1">
             <Comment
-              dish={dish}
               comments={comments}
-              addComment={props.addComment}
+              postComment={props.postComment}
               dishId={dish.id}
             ></Comment>
-            <CommentForm dishId={dish.dishId} addComment={props.addComment}/>
           </div>
         </div>
       </div>

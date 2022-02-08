@@ -18,17 +18,18 @@ import {
 import { Control, LocalForm, Errors } from "react-redux-form";
 
 import { Link } from "react-router-dom";
-
-const Comment = ({ comments, dish }) => {
+import { Loading } from "./LoadingComponent";
+const Comment = ({ comments, dish, addComment, dishId }) => {
   if (comments != null && dish != null) {
     return (
       <>
         <h4>Comments</h4>
         {comments.map((item) => {
+          console.log(item)
           return (
             <ul className="list-unstyled" key={dish.id}>
               <li>{item.comment}</li>
-              <li>--{item.name}</li>
+              <li>--{item.author}, {item.date}</li>
             </ul>
           );
         })}
@@ -73,6 +74,7 @@ class CommentForm extends Component {
   handleSubmit(values) {
     alert(JSON.stringify(values));
     console.log(values);
+    this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
   }
 
   render() {
@@ -171,7 +173,23 @@ class CommentForm extends Component {
 const DishDetail = (props) => {
   const dish = props.dish;
   const comments = props.comments;
-  if (dish) {
+  if (props.isLoading) {
+    return(
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    )
+  } else if (props.errMess) {
+    return(
+        <div className="container">
+            <div className="row">            
+                <h4>{props.errMess}</h4>
+            </div>
+        </div>
+    );
+ } else if (props.dish != null) {
     return (
       <div className="container">
         <div className="row">
@@ -190,8 +208,13 @@ const DishDetail = (props) => {
             <DishDetailItem dish={dish}></DishDetailItem>
           </div>
           <div className="col-12 col-md-5 m-1">
-            <Comment dish={dish} comments={comments}></Comment>
-            <CommentForm />
+            <Comment
+              dish={dish}
+              comments={comments}
+              addComment={props.addComment}
+              dishId={dish.id}
+            ></Comment>
+            <CommentForm dishId={dish.dishId} addComment={props.addComment}/>
           </div>
         </div>
       </div>

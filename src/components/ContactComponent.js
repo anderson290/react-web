@@ -75,7 +75,7 @@ class Contact extends Component {
               >
                 <i className="fa fa-phone"></i> Call
               </a>
-              <a role="button" className="btn btn-info">
+              <a role="button" href="tel:+85212345678" className="btn btn-info">
                 <i className="fa fa-skype"></i> Skype
               </a>
               <a
@@ -99,7 +99,7 @@ class Contact extends Component {
                   First Name
                 </Label>
                 <Col md={10}>
-                  <Control.text
+                  <Control.Text
                     model=".firstname"
                     id="firstname"
                     className="form-control"
@@ -128,7 +128,7 @@ class Contact extends Component {
                   Last Name
                 </Label>
                 <Col md={10}>
-                  <Control.text
+                  <Control.Text
                     model=".lastname"
                     id="lastname"
                     name="lastname"
@@ -157,7 +157,7 @@ class Contact extends Component {
                   Telephone Number
                 </Label>
                 <Col md={10}>
-                  <Control.text
+                  <Control.Text
                     model=".telnum"
                     id="telnum"
                     name="telnum"
@@ -188,7 +188,7 @@ class Contact extends Component {
                   Email
                 </Label>
                 <Col md={10}>
-                  <Control.text
+                  <Control.Text
                     model=".email"
                     id="email"
                     name="email"
@@ -214,7 +214,7 @@ class Contact extends Component {
                 <Col md={{ size: 6, offset: 2 }}>
                   <div className="form-check">
                     <Label check>
-                      <Control.checkbox
+                      <Control.Checkbox
                         model=".agree"
                         id="agree"
                         name="agree"
@@ -225,7 +225,7 @@ class Contact extends Component {
                   </div>
                 </Col>
                 <Col md={{ size: 3, offset: 1 }}>
-                  <Control.select
+                  <Control.Select
                     model=".contactType"
                     id="contactType"
                     name="contactType"
@@ -233,7 +233,7 @@ class Contact extends Component {
                   >
                     <option>Tel.</option>
                     <option>Email</option>
-                  </Control.select>
+                  </Control.Select>
                 </Col>
               </Row>
               <Row className="form-group">
@@ -241,7 +241,7 @@ class Contact extends Component {
                   Your Feedback
                 </Label>
                 <Col md={10}>
-                  <Control.textarea
+                  <Control.Textarea
                     model=".message"
                     id="message"
                     name="message"

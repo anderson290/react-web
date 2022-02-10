@@ -23,7 +23,7 @@ const RenderLeader = ({ leader, errMess, isLoading }) => {
       <Fade in>
         <div className="row mt-4">
           <div className="col-2">
-            <img src={baseUrl + leader.image} />
+            <img src={baseUrl + leader.image} alt={leader.image}/>
           </div>
           <div className="col-10">
             <h4>{leader.name}</h4>

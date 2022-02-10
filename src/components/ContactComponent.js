@@ -24,8 +24,8 @@ class Contact extends Component {
   }
 
   handleSubmit(values) {
-    console.log("CUrrent state is", values);
     this.props.resetFeedbackForm();
+    this.props.postFeedback(values);
   }
 
   render() {
@@ -242,7 +242,7 @@ class Contact extends Component {
                 </Label>
                 <Col md={10}>
                   <Control.textarea
-                    model=".textarea"
+                    model=".message"
                     id="message"
                     name="message"
                     rows="12"

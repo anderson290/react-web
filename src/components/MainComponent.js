@@ -11,7 +11,9 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   postComment,
+  postFeedback,
   fetchDishes,
+  fetchLeaders,
   fetchComments,
   fetchPromos,
 } from "../redux/ActionCreators";
@@ -30,8 +32,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   postComment: (dishId, rating, author, comment) =>
     dispatch(postComment(dishId, rating, author, comment)),
+  postFeedback: (dfirstname, lastname, email, telnum, agree, contactType, message) =>
+    dispatch(postFeedback(dfirstname, lastname, email, telnum, agree, contactType, message)),
   fetchDishes: () => {
     dispatch(fetchDishes());
+  },
+  fetchLeaders: () => {
+    dispatch(fetchLeaders());
   },
   resetFeedbackForm: () => {
     dispatch(actions.reset("feedback"));
@@ -41,11 +48,12 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
+//  constructor(props) {
+//    super(props);
+//  }
 
   componentDidMount() {
+    this.props.fetchLeaders();
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
@@ -65,7 +73,7 @@ class Main extends Component {
           }
           promoLoading={this.props.promotions.isLoading}
           promoErrMess={this.props.promotions.errMess}
-          leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+          leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
         />
       );
     };
@@ -110,7 +118,6 @@ class Main extends Component {
     return (
       <div>
         <Header />
-
         <TransitionGroup>
           <CSSTransition
             key={this.props.location.key}
@@ -126,7 +133,7 @@ class Main extends Component {
                 exact
                 path="/contactus"
                 component={() => (
-                  <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+                  <Contact resetFeedbackForm={this.props.resetFeedbackForm}  postFeedback={this.props.postFeedback}/>
                 )}
               />
               <Redirect to="/home" />
